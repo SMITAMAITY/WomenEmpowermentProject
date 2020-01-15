@@ -1,0 +1,210 @@
+Sequence for Step_Credential:
+--------------------------
+Create Sequence seq_stepId
+Increment by 1
+Start with 1
+Nocycle
+Nocache;
+
+_____________________________________________________
+Query for Register on clicking STEP
+------------------------------------
+Create table Step_Register
+(
+	Id number(5) Constraint User_Cendential_Id_PK Primary Key,
+	Name  Varchar2(50) Not Null, 
+	Username Varchar(10) Unique,
+	DOB date,
+	Password Varchar(16) Not Null,
+	CPassword Varchar(16) Not Null,
+	Contact Number(10) unique
+);
+______________________________________________________________
+Query to insert values:
+---------------------
+Insert into Step_Register(Id,Name,Username ,DOB ,Password ,CPassword ,Contact )
+values(seq_stepId.nextval,'SmitaMaity','Smita123',to_date('09-05-1996','DD-MM-YYYY'),'Crystalcoin1996','Crystalcoin1996','7327034895');
+
+Insert into Step_Register(Id,Name,Username ,DOB ,Password ,CPassword ,Contact )
+values(seq_stepId.nextval,'ChristalLobo','christallobo',to_date('18-03-1998','DD-MM-YYYY'),'christal1998','christal1998','9663925025');
+
+Insert into Step_Register(Id,Name,Username ,DOB ,Password ,CPassword ,Contact )
+values(seq_stepId.nextval,'Mrityunjoy','Joy97',to_date('10-04-1997','DD-MM-YYYY'),'joy1097','joy1097','9856367527');
+
+Insert into Step_Register(Id,Name,Username ,DOB ,Password ,CPassword ,Contact )
+values(seq_stepId.nextval,'Akshatha','Ak123',to_date('02-03-1997','DD-MM-YYYY'),'ak6748','ak6748','7352781689');
+_______________________________________________________________
+
+Query to select the Login Details
+----------------------------------
+
+Select Name 
+from Step_Register
+where Username='Smita123' and 
+Password='Crystalcoin1996';
+
+____________________________________________________________________
+Sequence for Perso_Credential
+------------------------------------------------------------------------
+
+Create Sequence seq_perso
+Increment by 1
+Start with 1
+Nocycle
+Nocache;
+________________________________________________________________________________________
+Query for Registration of STEP Personal_Details
+-------------------------------------------------
+Create table Step_Perso_Details
+(
+	PID number(5) Constraint Step_Perso_Details_PID_PK Primary Key,
+	Aadhar number(12),
+            Full_name  Varchar(50) Not Null,
+	DOB Date,
+	Blood_Group Varchar(2),
+	Occupation Varchar(20),
+	Address Varchar(100),
+	Marital_status Varchar(20),
+	Nationality Varchar(10),
+	Contact Number(10) unique,
+	Email Varchar(50) unique,
+ 	Salary Number(10,2)
+	);
+_____________________________________________________________________
+
+Sequence for Family_Credential
+------------------------------------------------------------------------
+
+Create Sequence seq_family
+Increment by 1
+Start with 1
+Nocycle
+Nocache;
+________________________________________________________________________________________
+Query for Registration of STEP Family_Details
+-----------------------------------------------------------------------------
+Create table Step_Family_Details
+(
+	FId number(5) Constraint Step_Family_Details_FId_PK Primary Key,
+	Name Varchar(30),
+	Relation Varchar(30),
+	Age Number(3),
+	Occupation Varchar(30),
+	PID Number(5),
+	Constraint Step_Family_Details_PID_FK Foreign Key(PID) References Step_Perso_Details(PID)
+);
+
+
+____________________________________________________________________________________________
+
+
+Sequence for Trainee_Credential
+-------------------------------------------
+
+Create Sequence seq_train
+Increment by 1
+Start with 1
+Nocycle
+Nocache;
+
+_______________________________________________________________________________
+Query for Registration of STEP Training_Details
+-------------------------------------------------------
+Create table Step_Training_Details
+(
+	Training_Id   number(5) Constraint Step_Training_Training_Id_PK Primary Key,
+	Course Varchar(30) Not Null,
+	Start_date date,
+	Last_date date,
+PID Number(5),
+	Constraint Step_Training_Details_PID_FK Foreign Key(Training_Id) References Step_Perso_Details(PID)
+);
+______________________________________________________________________________________
+
+Sequence for Hostel_Credential
+
+---------------------------------------------------------------
+Create Sequence seq_hid
+Increment by 1
+Start with 1
+Nocycle
+Nocache;
+
+____________________________________________________________________
+
+Query for Registration of STEP Hostel_Details
+-------------------------------------------------------------
+Create table Hostel
+(
+	HID number(5) Constraint Step_Hostel_HId_PK Primary Key,
+	hname Varchar(30) Not Null,
+	Location Varchar(20) Not Null,
+	Bed_avail Number(3) Not  Null,
+PID Number(5),
+	Constraint Hostel_PID_FK Foreign Key(HID) References Step_Perso_Details(PID)
+);
+_____________________________________________________________________________________
+Query to insert into Step_Perso_Details
+-------------------------------------------------
+
+Insert into Step_Perso_Details(PID,aadhar, Full_name, DOB, Blood_Group,Occupation,Address, Marital_Status, Nationality, Contact, Email, Salary)
+values(seq_perso.nextval,123412341234,'Smita Maity',to_date('09-05-1996','DD-MM-YYYY'),'B+','Self-Employed','Navi Mumbai','Single','Indian',7327034895,'smitam996@gmail.com',24000);
+
+Insert into Step_Perso_Details(PID,aadhar, Full_name, DOB, Blood_Group,Occupation,Address, Marital_Status, Nationality, Contact, Email, Salary)
+values(seq_perso.nextval,414123213423,'Apeksha Kotian',to_date('28-05-1997','DD-MM-YYYY'),'O+','Self-Employed','Navi Mumbai','Married','Indian',7191219379,'apkotian@gmail.com',24000);
+
+Insert into Step_Perso_Details(PID,aadhar, Full_name, DOB, Blood_Group,Occupation,Address, Marital_Status, Nationality, Contact, Email, Salary)
+values(seq_perso.nextval,412342342134,'Christal Lobo',to_date('09-05-1996','DD-MM-YYYY'),'A+','Self-Employed','Navi Mumbai','Single','Indian',9123537680,'christallobo@gmail.com',24000);
+________________________
+Query to insert into Step_Family_Details
+-----------------------------------
+
+Insert into Step_Family_Details(FId, Name, Relation, Age, Occupation,PID)
+values(seq_family.nextval,'Ashoke Maity','Father',64,'Artist',1);
+
+Insert into Step_Family_Details(FId, Name, Relation, Age, Occupation,PID)
+values(seq_family.nextval,'Swati Maity','Mother',50,'Home Maker',1);
+
+Insert into Step_Family_Details(FId, Name, Relation, Age, Occupation,PID)
+values(seq_family.nextval,'Smith Jonas','Child',7,'Student',1);
+________________________________________________________________________
+Query to insert into Step_Training_Details
+---------------------------------------------
+
+Insert into Step_Training_Details(Training_Id, Course, Start_date, Last_date,PID)
+values(seq_train.nextval, 'Handicrafts',to_date('30-01-2020','DD-MM-YYYY'),to_date('02-03-2020','DD-MM-YYYY'),1);
+
+Insert into Step_Training_Details(Training_Id, Course, Start_date, Last_date,PID)
+values(seq_train.nextval, 'Agriculture',to_date('30-01-2020','DD-MM-YYYY'),to_date('02-03-2020','DD-MM-YYYY'),1);
+
+Insert into Step_Training_Details(Training_Id, Course, Start_date, Last_date,PID)
+values(seq_train.nextval, 'Horticulture',to_date('30-01-2020','DD-MM-YYYY'),to_date('02-03-2020','DD-MM-YYYY'),1);
+
+Insert into Step_Training_Details(Training_Id, Course, Start_date, Last_date,PID)
+values(seq_train.nextval, 'Food Processing',to_date('30-01-2020','DD-MM-YYYY'),to_date('02-03-2020','DD-MM-YYYY'),1);
+
+Insert into Step_Training_Details(Training_Id, Course, Start_date, Last_date,PID)
+values(seq_train.nextval, 'Handlooms',to_date('30-01-2020','DD-MM-YYYY'),to_date('02-03-2020','DD-MM-YYYY'),1);
+
+Insert into Step_Training_Details(Training_Id, Course, Start_date, Last_date,PID)
+values(seq_train.nextval, 'Computer & IT',to_date('30-01-2020','DD-MM-YYYY'),to_date('02-03-2020','DD-MM-YYYY'),1);
+
+______________________________________________________________________________
+Query to insert into Hostel
+----------------------------
+
+Insert into Hostel(HID,hname, Location, Bed_avail,PID)
+values(seq_hid.nextval,'Ratan Kunj', 'Koper Khairane', 100,1);
+
+Insert into Hostel(HID,hname, Location, Bed_avail,PID)
+values(seq_hid.nextval,'HRF Homes', 'Vashi', 50,1);
+
+Insert into Hostel(HID,hname, Location, Bed_avail,PID)
+values(seq_hid.nextval,'Sri Darbar', 'Ghanasoli', 150,1);
+
+Insert into Hostel(HID,hname, Location, Bed_avail,PID)
+values(seq_hid.nextval,'Sri Laxmi Narayan', 'Kharghar', 120,1);
+
+Insert into Hostel(HID,hname, Location, Bed_avail)
+values(seq_hid.nextval,'Om Namah Shivay', 'Mahape', 80,1);
+______________________________________________________________________________________________________
